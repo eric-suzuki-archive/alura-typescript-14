@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import axios from "axios"
+=======
+>>>>>>> 07d1f801f9d3b4ae11f50730230d137f14a41dd9
 import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks"
 import { useState } from "react"
 
@@ -23,6 +26,7 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
             email,
             senha,
         }
+<<<<<<< HEAD
         axios.post('http://localhost:8000/public/login', usuario)
             .then(reposta => {
                 sessionStorage.setItem('token', reposta.data.access_token)
@@ -38,6 +42,9 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
                 }
                 
             })
+=======
+        console.log(usuario)
+>>>>>>> 07d1f801f9d3b4ae11f50730230d137f14a41dd9
     }
 
     return (<AbModal 
