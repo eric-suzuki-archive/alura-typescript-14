@@ -11,7 +11,7 @@ interface PropsModalCadastroUsuario {
     aoFechar: () => void
 }
 
-const ModalCadastroUsuario = ({ aberta, aoFechar }: PropsModalCadastroUsuario) => {
+const ModalCadastroUsuario = ({ aberta, aoFechar } : PropsModalCadastroUsuario) => {
 
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
@@ -49,56 +49,56 @@ const ModalCadastroUsuario = ({ aberta, aoFechar }: PropsModalCadastroUsuario) =
             })
     }
 
-    return (<AbModal
-        titulo="Cadastrar"
+    return (<AbModal 
+        titulo="Cadastrar" 
         aberta={aberta}
-        aoFechar={aoFechar}
+        aoFechar={aoFechar}    
     >
         <section className="corpoModalCadastro">
             <figure>
                 <img src={imagemPrincipal} alt="Pessoa segurando uma chave na frente de uma tela de computador que está exibindo uma fechadura" />
             </figure>
             <form onSubmit={aoSubmeterFormular}>
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="Nome"
                     value={nome}
                     onChange={setNome}
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="E-mail"
                     value={email}
                     onChange={setEmail}
                     type="email"
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="Endereço"
                     value={endereco}
                     onChange={setEndereco}
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="Complemento"
                     value={complemento}
                     onChange={setComplemento}
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="CEP"
                     value={cep}
                     onChange={setCep}
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="Senha"
                     value={senha}
                     onChange={setSenha}
                     type="password"
                 />
-                <AbCampoTexto
+                <AbCampoTexto 
                     label="Confirmação da senha"
                     value={senhaConfirmada}
                     onChange={setSenhaConfirmada}
                     type="password"
                 />
                 <div className="acoes">
-                    <AbBotao texto="Cadastrar" />
+                    <AbBotao texto="Cadastrar"/>
                 </div>
             </form>
         </section>
