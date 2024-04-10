@@ -1,56 +1,47 @@
+import axios from "axios"
 import { AbBotao, AbCampoTexto, AbModal } from "ds-alurabooks"
 import { useState } from "react"
-import axios from 'axios'
 
 import imagemPrincipal from './assets/login.png'
 
-import './ModalCadastroUsuario.css'
+import './ModalLoginUsuario.css'
 
-interface PropsModalCadastroUsuario {
+interface PropsModalLoginUsuario {
     aberta: boolean
     aoFechar: () => void
+    aoEfetuarLogin: () => void
 }
 
-const ModalCadastroUsuario = ({ aberta, aoFechar } : PropsModalCadastroUsuario) => {
+const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLoginUsuario) => {
 
-    const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
-    const [endereco, setEndereco] = useState('')
-    const [complemento, setComplemento] = useState('')
-    const [cep, setCep] = useState('')
     const [senha, setSenha] = useState('')
-    const [senhaConfirmada, setSenhaConfirmada] = useState('')
 
     const aoSubmeterFormular = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault()
         const usuario = {
-            nome,
             email,
             senha,
-            endereco,
-            cep,
-            complemento
         }
-
-        axios.post('http://localhost:8000/public/registrar', usuario)
-            .then(() => {
-                alert('Usuário foi cadastrado com sucesso!')
-                setNome('')
+        axios.post('http://localhost:8000/public/login', usuario)
+            .then(reposta => {
+                sessionStorage.setItem('token', reposta.data.access_token)
                 setEmail('')
-                setEndereco('')
-                setComplemento('')
-                setCep('')
                 setSenha('')
-                setSenhaConfirmada('')
-                aoFechar()
+                aoEfetuarLogin()
             })
-            .catch(() => {
-                alert('OPS! Alguma coisa deu errado!')
+            .catch(erro => {
+                if (erro?.response?.data?.message) {
+                    alert(erro.response.data.message)
+                } else {
+                    alert('Aconteceu um erro inesperado ao afetuar o seu login! Entre em contato com o suporte!')
+                }
+
             })
     }
 
     return (<AbModal 
-        titulo="Cadastrar" 
+        titulo="Login" 
         aberta={aberta}
         aoFechar={aoFechar}    
     >
@@ -60,30 +51,10 @@ const ModalCadastroUsuario = ({ aberta, aoFechar } : PropsModalCadastroUsuario) 
             </figure>
             <form onSubmit={aoSubmeterFormular}>
                 <AbCampoTexto 
-                    label="Nome"
-                    value={nome}
-                    onChange={setNome}
-                />
-                <AbCampoTexto 
                     label="E-mail"
                     value={email}
                     onChange={setEmail}
                     type="email"
-                />
-                <AbCampoTexto 
-                    label="Endereço"
-                    value={endereco}
-                    onChange={setEndereco}
-                />
-                <AbCampoTexto 
-                    label="Complemento"
-                    value={complemento}
-                    onChange={setComplemento}
-                />
-                <AbCampoTexto 
-                    label="CEP"
-                    value={cep}
-                    onChange={setCep}
                 />
                 <AbCampoTexto 
                     label="Senha"
@@ -91,18 +62,12 @@ const ModalCadastroUsuario = ({ aberta, aoFechar } : PropsModalCadastroUsuario) 
                     onChange={setSenha}
                     type="password"
                 />
-                <AbCampoTexto 
-                    label="Confirmação da senha"
-                    value={senhaConfirmada}
-                    onChange={setSenhaConfirmada}
-                    type="password"
-                />
                 <div className="acoes">
-                    <AbBotao texto="Cadastrar"/>
+                    <AbBotao texto="Fazer login"/>
                 </div>
             </form>
         </section>
     </AbModal>)
 }
 
-export default ModalCadastroUsuario
+export default ModalLoginUsuario
