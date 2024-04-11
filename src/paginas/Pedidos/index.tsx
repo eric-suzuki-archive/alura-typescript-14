@@ -5,6 +5,7 @@ import axios from 'axios'
 import './Pedidos.css'
 import { useEffect, useState } from "react"
 import { IPedido } from "../../interfaces/IPedido"
+import http from "../../http"
 
 const Pedidos = () => {
 
@@ -14,7 +15,7 @@ const Pedidos = () => {
 
     useEffect(() => {
         const token = sessionStorage.getItem('token')
-        axios.get<IPedido[]>('http://localhost:8000/pedidos', {
+        http.get<IPedido[]>('pedidos',{
             headers: {
                 'Authorization': `Bearer ${token}`
             }
