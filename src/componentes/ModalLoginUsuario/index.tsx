@@ -5,6 +5,7 @@ import { useState } from "react"
 import imagemPrincipal from './assets/login.png'
 
 import './ModalLoginUsuario.css'
+import http from "../../http"
 
 interface PropsModalLoginUsuario {
     aberta: boolean
@@ -12,7 +13,7 @@ interface PropsModalLoginUsuario {
     aoEfetuarLogin: () => void
 }
 
-const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLoginUsuario) => {
+const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin }: PropsModalLoginUsuario) => {
 
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
@@ -23,7 +24,7 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
             email,
             senha,
         }
-        axios.post('http://localhost:8000/public/login', usuario)
+        http.post('public/login', usuario)
             .then(reposta => {
                 sessionStorage.setItem('token', reposta.data.access_token)
                 setEmail('')
@@ -40,30 +41,30 @@ const ModalLoginUsuario = ({ aberta, aoFechar, aoEfetuarLogin } : PropsModalLogi
             })
     }
 
-    return (<AbModal 
-        titulo="Login" 
+    return (<AbModal
+        titulo="Login"
         aberta={aberta}
-        aoFechar={aoFechar}    
+        aoFechar={aoFechar}
     >
         <section className="corpoModalCadastro">
             <figure>
                 <img src={imagemPrincipal} alt="Pessoa segurando uma chave na frente de uma tela de computador que está exibindo uma fechadura" />
             </figure>
             <form onSubmit={aoSubmeterFormular}>
-                <AbCampoTexto 
+                <AbCampoTexto
                     label="E-mail"
                     value={email}
                     onChange={setEmail}
                     type="email"
                 />
-                <AbCampoTexto 
+                <AbCampoTexto
                     label="Senha"
                     value={senha}
                     onChange={setSenha}
                     type="password"
                 />
                 <div className="acoes">
-                    <AbBotao texto="Fazer login"/>
+                    <AbBotao texto="Fazer login" />
                 </div>
             </form>
         </section>
