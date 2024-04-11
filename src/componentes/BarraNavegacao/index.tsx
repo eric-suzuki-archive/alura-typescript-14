@@ -11,11 +11,15 @@ const BarraNavegacao = () => {
 
     const [modalCadastroAberta, setModalCadastroAberta] = useState(false)
     const [modalLoginAberta, setModalLoginAberta] = useState(false)
-    const [usuarioEstaLogado, setUsuarioEstaLogado] = useState(false)
+
+    const token = sessionStorage.getItem('token')
+
+    const [usuarioEstaLogado, setUsuarioEstaLogado] = useState<boolean>(token != null)
+
 
     const aoEfetuarLogin = () => {
-        setUsuarioEstaLogado(true)
         setModalLoginAberta(false)
+        setUsuarioEstaLogado(true)
     }
 
     const acoesQuandoDeslogado = (<>
@@ -48,7 +52,7 @@ const BarraNavegacao = () => {
 
     const acoesQuandoLogado = (<>
         <li>
-            <Link to="/minha-conta/pedidos">Minha Conta</Link> 
+            <Link to="/minha-conta/pedidos">Minha Conta</Link>
         </li>
     </>)
 
@@ -91,8 +95,41 @@ const BarraNavegacao = () => {
             </li>
         </ul>
         <ul className="acoes">
-            {usuarioEstaLogado ? acoesQuandoLogado : acoesQuandoDeslogado}
-        </ul>   
+            {!usuarioEstaLogado && (<>
+                <li>
+                    <BotaoNavegacao
+                        texto="Login"
+                        textoAltSrc="Icone representando um usuário"
+                        imagemSrc={usuario}
+                        onClick={() => setModalLoginAberta(true)}
+                    />
+                    <ModalLoginUsuario
+                        aberta={modalLoginAberta}
+                        aoFechar={() => setModalLoginAberta(false)}
+                        aoEfetuarLogin={aoEfetuarLogin}
+                    />
+                </li>
+                <li>
+                    <BotaoNavegacao
+                        texto="Cadastrar-se"
+                        textoAltSrc="Icone representando um usuário"
+                        imagemSrc={usuario}
+                        onClick={() => setModalCadastroAberta(true)}
+                    />
+                    <ModalCadastroUsuario
+                        aberta={modalCadastroAberta}
+                        aoFechar={() => setModalCadastroAberta(false)}
+                    />
+                </li>
+            </>)}
+            {usuarioEstaLogado &&
+                <>
+                    <li>
+                        <Link to="/minha-conta/pedidos">Minha conta</Link>
+                    </li>
+                </>
+            }
+        </ul>
     </nav>)
 }
 
